@@ -161,6 +161,23 @@ label{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--t3);text-t
   </div>
 </div>
 
+<!-- MODAL: DADOS REAIS -->
+<div class="modal-overlay" id="modal-data" style="display:none">
+  <div class="modal" style="max-width:560px">
+    <h2 style="margin-bottom:4px"><i class="ti ti-clipboard-data"></i> Dados reais do concorrente</h2>
+    <p style="margin-bottom:16px">Cole abaixo o que você vê diretamente nos perfis e site. Quanto mais dados reais você fornecer, mais precisa será a análise. Campos opcionais — preencha o que tiver.</p>
+    <div class="field"><label>Instagram — bio, seguidores, posts, seguindo</label><textarea id="fd-instagram" rows="3" placeholder="Ex: @igormelloeu · 70.5K seguidores · 640 posts · Bio: Venda consultiva · Não sou o 01..."></textarea></div>
+    <div class="field"><label>Site — headline, proposta de valor, oferta, preço</label><textarea id="fd-site" rows="3" placeholder="Ex: Headline: 'Aprenda a vender como um closer faixa preta'..."></textarea></div>
+    <div class="field"><label>Conteúdo — Reels recentes, temas, cadência</label><textarea id="fd-content" rows="3" placeholder="Ex: Posta ~5x/semana, maioria Reels, temas: objeções, fechamento, cliente cético..."></textarea></div>
+    <div class="field"><label>Outros dados relevantes</label><textarea id="fd-extra" rows="2" placeholder="Preço de curso, funil, depoimentos, YT..."></textarea></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="confirmDataAndAnalyze()"><i class="ti ti-sparkles"></i> Analisar com esses dados</button>
+      <button class="btn" onclick="skipDataAndAnalyze()"><i class="ti ti-world-search"></i> Analisar só com web search</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('modal-data').style.display='none'">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <div id="page-analysis" style="display:none">
   <div id="analysis-select-msg" class="empty" style="padding:24px"><i class="ti ti-arrow-left"></i>Selecione um concorrente para analisar.</div>
   <div id="analysis-main" style="display:none">
@@ -342,21 +359,66 @@ function updateNavState(){
 
 /* ---- ANALYSIS ---- */
 function buildPrompt(section,comp){
-  var ctx="Você é analista de marketing estratégico da Aionix, agência de geração de demanda para empresários brasileiros na Austrália. Concorrente: "+comp.name+(comp.website?", site: "+comp.website:"")+(comp.instagram?", Instagram: "+comp.instagram:"")+(comp.segment?", segmento: "+comp.segment:"")+(comp.extra?". Contexto: "+comp.extra:"")+".";
+  var name=comp.name;
+  var site=comp.website?"Site oficial: "+comp.website+".":"";
+  var ig=comp.instagram?"Instagram: "+comp.instagram+".":"";
+  var seg=comp.segment?"Segmento: "+comp.segment+".":"";
+  var extra=comp.extra?"Contexto adicional: "+comp.extra+".":"";
+
+  // dados reais coletados pelo usuário
+  var rd="";
+  if(realData&&(realData.instagram||realData.site||realData.content||realData.extra)){
+    rd="\n\n=== DADOS REAIS COLETADOS DIRETAMENTE (use estes como fonte primária) ===";
+    if(realData.instagram) rd+="\nINSTAGRAM: "+realData.instagram;
+    if(realData.site) rd+="\nSITE: "+realData.site;
+    if(realData.content) rd+="\nCONTEÚDO: "+realData.content;
+    if(realData.extra) rd+="\nOUTROS: "+realData.extra;
+    rd+="\n=== FIM DOS DADOS REAIS ===\n\nIMPORTANTE: Os dados acima foram coletados diretamente pelo analista e são 100% confiáveis. Priorize-os sobre qualquer resultado de busca.";
+  }
+
+  var ctx="CONCORRENTE ANALISADO: "+name+"\n"+site+"\n"+ig+"\n"+seg+"\n"+extra+rd+"\n\nATENÇÃO: Toda análise deve ser EXCLUSIVAMENTE sobre "+name+". Não misture com outros concorrentes.";
   var ps={
-    social:ctx+"\n\nAnalise a presença social. Busque o perfil no Instagram e redes sociais. Responda em português com dados reais: seguidores, frequência de posts, tipos de conteúdo, engajamento estimado, estética do feed, bio e posicionamento de marca.",
-    copy:ctx+"\n\nAnalise a copy do site. Busque e leia o site. Responda em português: headline principal, proposta de valor, argumentos de venda, tom de voz, clareza da oferta, CTAs utilizados, prova social.",
-    funnel:ctx+"\n\nAnalise o funil de vendas. Responda em português: como o lead entra, iscas digitais, meio do funil, oferta principal, preço se visível, garantias, como fecham a venda.",
-    content:ctx+"\n\nAnalise o conteúdo de vídeo. Busque Instagram e YouTube. Responda em português: volume de Reels/vídeos, formatos, cadência, temas, engajamento, qualidade de produção.",
-    audience:ctx+"\n\nAnalise o público-alvo. Responda em português: quem miram, setor, dor principal, linguagem usada, nível de consciência, transformação vendida.",
-    strategic:ctx+"\n\nGere diagnóstico estratégico para a Aionix. Três blocos:\n\n**Pontos fortes do concorrente**\n\n**Pontos fracos**\n\n**Oportunidades para a Aionix**",
-    scores:ctx+"\n\nAtribua scores de 0 a 10 para: "+SCORE_DIMS.join(", ")+". Responda APENAS em JSON puro sem markdown: {\"Presença social\":7,...}"
+    social:ctx+"\n\nTarefa: Analise a presença social de "+name+".\n"+(realData&&realData.instagram?"Use os dados reais do Instagram fornecidos acima como base principal.":"Busque '"+name+(comp.instagram?" "+comp.instagram:"")+" Instagram' e leia o perfil.")+"\nInforme em bullet points: seguidores, posts, seguindo, bio completa, posicionamento de marca, tom de voz, tipos de conteúdo, frequência estimada, engajamento. Responda em português.",
+    copy:ctx+"\n\nTarefa: Analise a copy e site de "+name+".\n"+(realData&&realData.site?"Use os dados reais do site fornecidos acima como base principal.":"Acesse "+(comp.website||"o site de "+name)+" e leia.")+"\nInforme em bullet points: headline principal, proposta de valor, argumentos de venda, tom de voz, clareza da oferta, CTAs, prova social. Responda em português.",
+    funnel:ctx+"\n\nTarefa: Analise o funil de vendas de "+name+".\nBusque o site e redes. Mapeie em bullet points: entrada do lead, isca digital, meio do funil, oferta principal, preço se visível, garantias, mecanismo de fechamento. Responda em português.",
+    content:ctx+"\n\nTarefa: Analise a estratégia de conteúdo de "+name+".\n"+(realData&&realData.content?"Use os dados reais de conteúdo fornecidos acima como base principal.":"Busque '"+name+" Reels' e '"+name+" YouTube'.")+"\nInforme em bullet points: volume de vídeos/Reels, cadência, formatos dominantes, temas recorrentes, engajamento estimado, qualidade de produção. Responda em português.",
+    audience:ctx+"\n\nTarefa: Identifique o público-alvo de "+name+".\nAnalise o site e conteúdo. Informe em bullet points: perfil do cliente ideal, setor/nicho, principal dor, linguagem usada, nível de consciência, transformação prometida. Responda em português.",
+    strategic:ctx+"\n\nTarefa: Diagnóstico estratégico de "+name+" para a Aionix (geração de demanda para brasileiros na Austrália).\n\nResponda em três blocos:\n\n**PONTOS FORTES DE "+name.toUpperCase()+"**\nO que fazem bem que a Aionix deveria estudar.\n\n**PONTOS FRACOS DE "+name.toUpperCase()+"**\nLacunas e vulnerabilidades observadas.\n\n**OPORTUNIDADES PARA A AIONIX**\nAções concretas para se diferenciar e superar "+name+". Responda em português.",
+    scores:"Com base nos dados conhecidos sobre "+name+(realData&&(realData.instagram||realData.site)?" e nos dados reais fornecidos":"")+", atribua scores de 0 a 10. Seja rigoroso — 10 é excelência absoluta.\n\nDimensões: "+SCORE_DIMS.join(", ")+"\n\nResponda APENAS JSON puro:\n{\"Presença social\":7,\"Copy\":6,\"Funil\":8,\"Conteúdo\":7,\"Público\":8,\"Posicionamento\":6}"
   };
   return ps[section]||ctx;
 }
 
 var currentLoadingId=null;
-async function startAnalysis(id){
+var pendingAnalysisId=null;
+var realData={};
+
+function startAnalysis(id){
+  var apiKey=getApiKey();
+  if(!apiKey){openModal();return;}
+  pendingAnalysisId=id;
+  // limpa campos
+  ["fd-instagram","fd-site","fd-content","fd-extra"].forEach(function(f){document.getElementById(f).value="";});
+  document.getElementById("modal-data").style.display="flex";
+}
+
+function confirmDataAndAnalyze(){
+  realData={
+    instagram:document.getElementById("fd-instagram").value.trim(),
+    site:document.getElementById("fd-site").value.trim(),
+    content:document.getElementById("fd-content").value.trim(),
+    extra:document.getElementById("fd-extra").value.trim()
+  };
+  document.getElementById("modal-data").style.display="none";
+  runAnalysis(pendingAnalysisId);
+}
+function skipDataAndAnalyze(){
+  realData={};
+  document.getElementById("modal-data").style.display="none";
+  runAnalysis(pendingAnalysisId);
+}
+
+async function runAnalysis(id){
   var apiKey=getApiKey();
   if(!apiKey){openModal();return;}
   var comp=competitors.find(function(c){return c.id===id;});if(!comp)return;
@@ -376,34 +438,50 @@ async function startAnalysis(id){
   for(var i=0;i<SECTIONS.length;i++){
     var sec=SECTIONS[i];if(currentLoadingId!==id)return;
     setStatus("loading","Analisando: "+sec.label);renderSegTabs(sec.id);
-    try{
-      var res=await fetch("https://api.anthropic.com/v1/messages",{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json",
-          "x-api-key":apiKey,
-          "anthropic-version":"2023-06-01",
-          "anthropic-dangerous-direct-browser-access":"true"
-        },
-        body:JSON.stringify({
-          model:"claude-sonnet-4-20250514",
-          max_tokens:1000,
-          tools:[{type:"web_search_20250305",name:"web_search"}],
-          messages:[{role:"user",content:buildPrompt(sec.id,comp)}]
-        })
-      });
-      var data=await res.json();
-      if(data.error){throw new Error(data.error.message);}
-      if(sec.id==="scores"){
-        var tb=(data.content||[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("");
-        try{analysisStore[id].scores=JSON.parse(tb.replace(/```json|```/g,"").trim());}catch(e){analysisStore[id].scores={};}
-      }else{
-        analysisStore[id][sec.id]=(data.content||[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("")||"Sem dados.";
+
+    var attempt=0;var success=false;
+    while(attempt<3&&!success){
+      if(attempt>0){
+        setStatus("loading","Aguardando limite de API... ("+attempt+"/2)");
+        await new Promise(function(r){setTimeout(r,22000);});
       }
-    }catch(e){
-      if(sec.id!=="scores")analysisStore[id][sec.id]="Erro: "+e.message;
+      try{
+        var res=await fetch("https://api.anthropic.com/v1/messages",{
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json",
+            "x-api-key":apiKey,
+            "anthropic-version":"2023-06-01",
+            "anthropic-dangerous-direct-browser-access":"true"
+          },
+          body:JSON.stringify({
+            model:"claude-sonnet-4-20250514",
+            max_tokens:800,
+            tools:[{type:"web_search_20250305",name:"web_search"}],
+            messages:[{role:"user",content:buildPrompt(sec.id,comp)}]
+          })
+        });
+        var data=await res.json();
+        if(data.error&&data.error.type==="rate_limit_error"){
+          attempt++;continue;
+        }
+        if(data.error){throw new Error(data.error.message);}
+        if(sec.id==="scores"){
+          var tb=(data.content||[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("");
+          try{analysisStore[id].scores=JSON.parse(tb.replace(/```json|```/g,"").trim());}catch(e){analysisStore[id].scores={};}
+        }else{
+          analysisStore[id][sec.id]=(data.content||[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("")||"Sem dados.";
+        }
+        success=true;
+      }catch(e){
+        if(sec.id!=="scores")analysisStore[id][sec.id]="Erro: "+e.message;
+        success=true;
+      }
     }
+    if(!success&&sec.id!=="scores") analysisStore[id][sec.id]="Rate limit atingido. Tente novamente em 1 minuto.";
     saveStorage();if(activeSection===sec.id)renderContent();
+    // pausa entre seções para não estourar rate limit
+    if(i<SECTIONS.length-1) await new Promise(function(r){setTimeout(r,4000);});
   }
   setStatus("done","Análise completa");
   document.getElementById("btn-pdf").style.display="inline-flex";
