@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Baixar Aionix CI</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d1117;color:#e6e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.card{background:#161b26;border:1px solid #252c3d;border-radius:16px;padding:32px;max-width:480px;width:100%;text-align:center}
+.icon{width:56px;height:56px;background:#1a2d5e;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:26px;color:#4f7cff}
+h1{font-size:20px;font-weight:600;margin-bottom:8px}
+p{font-size:13px;color:#8b93b0;line-height:1.7;margin-bottom:24px}
+.steps{text-align:left;background:#1e2433;border-radius:10px;padding:16px 20px;margin-bottom:24px}
+.step{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.step:last-child{margin-bottom:0}
+.step-num{width:22px;height:22px;background:#1a2d5e;color:#4f7cff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.step-text{font-size:13px;color:#c8cad8;line-height:1.6}
+.step-text a{color:#4f7cff;text-decoration:none}
+.step-text code{background:#252c3d;padding:2px 6px;border-radius:4px;font-size:12px;color:#9b87f5}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:10px;border:none;background:#4f7cff;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;transition:background .15s}
+.btn:hover{background:#3d6be0}
+.note{font-size:11px;color:#525a78;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon"><i class="ti ti-brand-github"></i></div>
+  <h1>Publicar no GitHub Pages</h1>
+  <p>Siga os passos abaixo para hospedar o Aionix CI como um link público para seu time.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Clique no botão abaixo para baixar o arquivo <code>index.html</code></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Acesse <a href="https://github.com" target="_blank">github.com</a> → New repository → nome: <code>aionix-ci</code> → Public → Create</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">Dentro do repo clique em <strong>Add file → Upload files</strong> e suba o <code>index.html</code></div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">Vá em <strong>Settings → Pages → Branch: main → Save</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-text">Em ~1 minuto o link fica disponível: <code>seuusuario.github.io/aionix-ci</code></div>
+    </div>
+  </div>
+
+  <button class="btn" onclick="downloadFile()"><i class="ti ti-download"></i> Baixar index.html</button>
+  <div class="note">O arquivo contém todo o app — sem dependências externas além do CDN.</div>
+</div>
+
+<script>
+function downloadFile(){
+  var content = document.getElementById('app-source').textContent;
+  var blob = new Blob([content], {type:'text/html'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'index.html';
+  a.click();
+}
+</script>
+
+<script type="text/plain" id="app-source"><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"><\/script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<title>Aionix — Inteligência Competitiva</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--s1:#161b26;--s2:#1e2433;--s3:#252c3d;
+  --b1:#252c3d;--b2:#313858;--b3:#3f4870;
+  --t1:#e6e8f0;--t2:#8b93b0;--t3:#525a78;
+  --acc:#4f7cff;--acc2:#1a2d5e;--acc3:#0d1a3a;
+  --grn:#22c98a;--grn2:#0a3328;
+  --amb:#e09c2a;--amb2:#2e1e04;
+  --red:#e85555;--red2:#2d1212;
+  --pur:#9b87f5;--pur2:#1e1540;
+  --r:10px;--rl:14px;
+}
+body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;min-height:100vh}
+.app{max-width:900px;margin:0 auto;padding:32px 20px 80px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-icon{width:36px;height:36px;background:var(--acc);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff}
+.brand-name{font-size:18px;font-weight:600}
+.brand-sub{font-size:11px;color:var(--t3);margin-top:1px}
+.ver-badge{background:var(--acc2);border:1px solid var(--b2);color:var(--acc);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.nav{display:flex;gap:3px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--rl);padding:4px;margin-bottom:24px}
+.nav-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 8px;border-radius:var(--r);border:none;background:transparent;color:var(--t2);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s}
+.nav-btn.active{background:var(--s2);color:var(--t1);border:1px solid var(--b2)}
+.nav-btn:disabled{opacity:.3;cursor:default}
+.nav-btn .count-badge{background:var(--b2);color:var(--t2);padding:1px 6px;border-radius:10px;font-size:10px}
+.nav-btn.active .count-badge{background:var(--acc2);color:var(--acc)}
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--rl);padding:20px}
+.card+.card{margin-top:12px}
+.sec-label{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--t3);text-transform:uppercase;margin-bottom:12px}
+input,textarea,select{width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);color:var(--t1);font-size:13px;padding:9px 12px;font-family:inherit;outline:none;transition:border .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--acc)}
+textarea{resize:vertical;min-height:60px}
+label{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--t3);text-transform:uppercase;display:block;margin-bottom:5px}
+.field{margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:560px){.grid2,.grid3{grid-template-columns:1fr}}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r);border:1px solid var(--b2);background:var(--s2);color:var(--t1);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn:hover{background:var(--b1)}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn-primary:hover{background:#3d6be0;border-color:#3d6be0}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-ghost{background:transparent;border-color:transparent;color:var(--t2)}
+.btn-ghost:hover{background:var(--s2);color:var(--t1)}
+.btn-danger{background:transparent;border-color:transparent;color:var(--red)}
+.btn-danger:hover{background:var(--red2)}
+.comp-row{background:var(--s1);border:1px solid var(--b1);border-radius:var(--rl);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;transition:all .15s;cursor:pointer}
+.comp-row:hover{border-color:var(--b2);background:var(--s2)}
+.comp-row.selected{border-color:var(--acc);background:var(--acc3)}
+.avatar{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.row-meta{font-size:11px;color:var(--t3);margin-top:2px}
+.row-actions{display:flex;gap:4px;flex-shrink:0}
+.seg-tabs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
+.seg-tab{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:20px;border:1px solid var(--b1);background:transparent;color:var(--t2);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s}
+.seg-tab:hover{border-color:var(--b2);color:var(--t1)}
+.seg-tab.active{background:var(--acc2);border-color:var(--b3);color:var(--acc)}
+.seg-tab.done{color:var(--grn);border-color:var(--grn2)}
+.seg-tab.done.active{background:#0a3328;border-color:var(--grn)}
+.seg-tab.busy{color:var(--amb)}
+.seg-tab:disabled{opacity:.35;cursor:default}
+.analysis-box{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:20px 24px;font-size:13px;line-height:1.9;color:var(--t1);white-space:pre-wrap;min-height:160px}
+.analysis-box strong{color:#fff;font-weight:600}
+.score-bar-wrap{margin-bottom:6px}
+.score-label-row{display:flex;justify-content:space-between;font-size:11px;color:var(--t2);margin-bottom:4px}
+.score-bar{height:6px;background:var(--s3);border-radius:3px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:3px;transition:width .6s ease}
+.comp-compare-col{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:16px;flex:1;min-width:0}
+.comp-compare-col h3{font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.compare-grid{display:flex;gap:10px}
+@media(max-width:600px){.compare-grid{flex-direction:column}}
+.empty{text-align:center;padding:48px 20px;color:var(--t3)}
+.empty i{font-size:40px;display:block;margin-bottom:12px}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.pill-blue{background:var(--acc2);color:var(--acc);border:1px solid var(--b2)}
+.pill-green{background:var(--grn2);color:var(--grn);border:1px solid #0f4535}
+.pill-amber{background:var(--amb2);color:var(--amb);border:1px solid #3d2908}
+.score-num{font-size:28px;font-weight:700;line-height:1}
+.score-sub{font-size:11px;color:var(--t3);margin-top:2px}
+.score-card{background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);padding:12px 16px;text-align:center}
+.chart-wrap{position:relative;height:260px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.rank-row{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);margin-bottom:8px}
+.rank-num{font-size:18px;font-weight:700;color:var(--t3);width:28px;text-align:center}
+.rank-num.top{color:var(--amb)}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-icon">A</div>
+    <div>
+      <div class="brand-name">Aionix</div>
+      <div class="brand-sub">Inteligência Competitiva</div>
+    </div>
+  </div>
+  <div class="ver-badge">v2.0</div>
+</div>
+<div class="nav">
+  <button class="nav-btn active" id="nav-competitors" onclick="page('competitors')"><i class="ti ti-building-store"></i> Concorrentes <span class="count-badge" id="comp-count-badge">0</span></button>
+  <button class="nav-btn" id="nav-analysis" onclick="page('analysis')" disabled><i class="ti ti-chart-dots"></i> Análise</button>
+  <button class="nav-btn" id="nav-compare" onclick="page('compare')" disabled><i class="ti ti-columns"></i> Comparar</button>
+  <button class="nav-btn" id="nav-ranking" onclick="page('ranking')" disabled><i class="ti ti-trophy"></i> Ranking</button>
+</div>
+<div id="page-competitors">
+  <div class="card">
+    <div class="sec-label">Adicionar concorrente</div>
+    <div class="grid2">
+      <div class="field"><label>Nome *</label><input id="f-name" placeholder="ex: Samba Digital"/></div>
+      <div class="field"><label>Website</label><input id="f-website" placeholder="https://..."/></div>
+      <div class="field"><label>Instagram</label><input id="f-instagram" placeholder="@handle ou URL"/></div>
+      <div class="field"><label>Segmento</label><input id="f-segment" placeholder="ex: Marketing digital"/></div>
+    </div>
+    <div class="field"><label>Contexto adicional</label><textarea id="f-extra" placeholder="Info extra para enriquecer a análise..."></textarea></div>
+    <button class="btn btn-primary" onclick="addComp()"><i class="ti ti-plus"></i> Adicionar</button>
+  </div>
+  <div style="margin-top:20px">
+    <div class="sec-label">Salvos</div>
+    <div id="comp-list"><div class="empty"><i class="ti ti-building-store"></i>Nenhum concorrente ainda.</div></div>
+  </div>
+</div>
+<div id="page-analysis" style="display:none">
+  <div id="analysis-select-msg" class="empty" style="padding:24px"><i class="ti ti-arrow-left"></i>Selecione um concorrente para analisar.</div>
+  <div id="analysis-main" style="display:none">
+    <div class="section-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="avatar" id="a-avatar"></div>
+        <div>
+          <div style="font-size:16px;font-weight:600" id="a-name"></div>
+          <div id="a-status" class="pill pill-blue" style="margin-top:4px"><i class="ti ti-clock" style="font-size:11px"></i> Aguardando</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn btn-sm" id="btn-pdf" onclick="exportPDF()" style="display:none"><i class="ti ti-file-type-pdf"></i> PDF completo</button>
+        <button class="btn btn-sm btn-ghost" onclick="page('competitors')"><i class="ti ti-arrow-left"></i> Voltar</button>
+      </div>
+    </div>
+    <div class="card" id="scores-card" style="display:none;margin-bottom:16px">
+      <div class="sec-label">Score geral</div>
+      <div class="grid3" id="score-summary"></div>
+      <div style="margin-top:16px" id="score-bars"></div>
+    </div>
+    <div class="seg-tabs" id="seg-tabs"></div>
+    <div id="analysis-content"></div>
+  </div>
+</div>
+<div id="page-compare" style="display:none">
+  <div class="card" style="margin-bottom:16px">
+    <div class="sec-label">Selecione 2–3 concorrentes para comparar</div>
+    <div id="compare-select-list"></div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <select id="compare-section" style="width:auto;flex:1;min-width:160px">
+        <option value="social">Presença social</option>
+        <option value="copy">Copy & site</option>
+        <option value="funnel">Funil & oferta</option>
+        <option value="content">Conteúdo & Reels</option>
+        <option value="audience">Público-alvo</option>
+        <option value="strategic">Diagnóstico estratégico</option>
+      </select>
+      <button class="btn btn-primary" onclick="renderCompare()"><i class="ti ti-columns"></i> Comparar</button>
+    </div>
+  </div>
+  <div id="compare-output"></div>
+</div>
+<div id="page-ranking" style="display:none">
+  <div class="card" style="margin-bottom:16px">
+    <div class="sec-label">Ranking por score total</div>
+    <div id="ranking-list"></div>
+  </div>
+  <div class="card">
+    <div class="sec-label">Comparativo visual</div>
+    <div class="chart-wrap"><canvas id="ranking-chart"></canvas></div>
+  </div>
+</div>
+</div>
+<script>
+var SECTIONS=[
+  {id:"social",label:"Presença social",icon:"ti-brand-instagram"},
+  {id:"copy",label:"Copy & site",icon:"ti-writing"},
+  {id:"funnel",label:"Funil & oferta",icon:"ti-filter"},
+  {id:"content",label:"Conteúdo & Reels",icon:"ti-player-play"},
+  {id:"audience",label:"Público-alvo",icon:"ti-users"},
+  {id:"strategic",label:"Diagnóstico estratégico",icon:"ti-bulb"},
+  {id:"scores",label:"Scores",icon:"ti-chart-radar"}
+];
+var SCORE_DIMS=["Presença social","Copy","Funil","Conteúdo","Público","Posicionamento"];
+var PAL=["#4f7cff","#d4537e","#ba7517","#7f77dd","#1d9e75","#d85a30","#2196f3","#9b59b6"];
+var PAL_BG=["#1a2d5e22","#4a1b2b22","#2e1e0422","#1e154022","#0a332822","#2a150a22"];
+var competitors=[];
+var selected=null;
+var analysisStore={};
+var activeSection="social";
+var rankChart=null;
+
+function loadStorage(){
+  try{var d=localStorage.getItem("aionix-ci-v2");if(d){var p=JSON.parse(d);competitors=p.competitors||[];analysisStore=p.analysisStore||{};}}catch(e){}
+}
+function saveStorage(){
+  try{localStorage.setItem("aionix-ci-v2",JSON.stringify({competitors,analysisStore}));}catch(e){}
+}
+function page(p){
+  ["competitors","analysis","compare","ranking"].forEach(function(n){
+    document.getElementById("page-"+n).style.display=n===p?"block":"none";
+    var btn=document.getElementById("nav-"+n);
+    if(btn)btn.classList.toggle("active",n===p);
+  });
+  if(p==="compare")renderCompareSelect();
+  if(p==="ranking")renderRanking();
+}
+function addComp(){
+  var name=document.getElementById("f-name").value.trim();
+  if(!name)return;
+  competitors.push({id:Date.now(),name:name,website:document.getElementById("f-website").value.trim(),instagram:document.getElementById("f-instagram").value.trim(),segment:document.getElementById("f-segment").value.trim(),extra:document.getElementById("f-extra").value.trim()});
+  ["f-name","f-website","f-instagram","f-segment","f-extra"].forEach(function(id){document.getElementById(id).value="";});
+  saveStorage();renderCompList();
+}
+function deleteComp(id){
+  competitors=competitors.filter(function(c){return c.id!==id;});
+  if(selected&&selected.id===id)selected=null;
+  delete analysisStore[id];
+  saveStorage();renderCompList();updateNavState();
+}
+function getScore(compId){
+  var d=analysisStore[compId];if(!d||!d.scores)return 0;
+  var vals=SCORE_DIMS.map(function(k){return d.scores[k]||0;});
+  return vals.reduce(function(a,b){return a+b;},0)/vals.length;
+}
+function renderCompList(){
+  var el=document.getElementById("comp-list");
+  document.getElementById("comp-count-badge").textContent=competitors.length;
+  if(!competitors.length){el.innerHTML='<div class="empty"><i class="ti ti-building-store"></i>Nenhum concorrente ainda.</div>';return;}
+  el.innerHTML=competitors.map(function(c,i){
+    var hasData=analysisStore[c.id]&&Object.keys(analysisStore[c.id]).length>0;
+    var score=getScore(c.id);
+    return '<div class="comp-row'+(selected&&selected.id===c.id?" selected":"")+'" onclick="selectComp('+c.id+')">' +
+      '<div style="display:flex;align-items:center;gap:12px">' +
+        '<div class="avatar" style="background:'+PAL_BG[i%PAL.length]+';color:'+PAL[i%PAL.length]+'">'+c.name[0].toUpperCase()+'</div>' +
+        '<div><div style="font-size:13px;font-weight:600">'+c.name+'</div><div class="row-meta">'+(c.segment||c.website||"sem segmento")+'</div></div>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+        (score>0?'<div class="pill pill-blue" style="font-size:12px;font-weight:700">'+score.toFixed(1)+'</div>':'')+
+        (hasData?'<div class="pill pill-green"><i class="ti ti-check" style="font-size:10px"></i> Analisado</div>':'')+
+        '<div class="row-actions">' +
+          '<button class="btn btn-sm" onclick="event.stopPropagation();startAnalysis('+c.id+')"><i class="ti ti-sparkles"></i> Analisar</button>' +
+          '<button class="btn btn-sm btn-danger" onclick="event.stopPropagation();deleteComp('+c.id+')"><i class="ti ti-trash"></i></button>' +
+        '</div>' +
+      '</div></div>';
+  }).join("");
+}
+function selectComp(id){
+  var c=competitors.find(function(x){return x.id===id;});if(!c)return;
+  selected=c;renderCompList();
+  if(analysisStore[id]&&Object.keys(analysisStore[id]).length>0){loadAnalysisView(id);updateNavState();page("analysis");}
+}
+function updateNavState(){
+  var any=competitors.some(function(c){return analysisStore[c.id]&&Object.keys(analysisStore[c.id]).length>0;});
+  document.getElementById("nav-analysis").disabled=!selected;
+  document.getElementById("nav-compare").disabled=!any;
+  document.getElementById("nav-ranking").disabled=!any;
+}
+function buildPrompt(section,comp){
+  var ctx="Você é analista de marketing estratégico da Aionix, agência de geração de demanda para empresários brasileiros na Austrália. Concorrente: "+comp.name+(comp.website?", site: "+comp.website:"")+(comp.instagram?", Instagram: "+comp.instagram:"")+(comp.segment?", segmento: "+comp.segment:"")+(comp.extra?". Contexto: "+comp.extra:"")+".";
+  var ps={
+    social:ctx+"\n\nAnalise a presença social. Busque o perfil no Instagram e redes sociais. Responda em português com dados reais: seguidores, frequência de posts, tipos de conteúdo, engajamento estimado, estética do feed, bio e posicionamento de marca.",
+    copy:ctx+"\n\nAnalise a copy do site. Busque e leia o site. Responda em português: headline principal, proposta de valor, argumentos de venda, tom de voz, clareza da oferta, CTAs utilizados, prova social.",
+    funnel:ctx+"\n\nAnalise o funil de vendas. Responda em português: como o lead entra, iscas digitais, meio do funil, oferta principal, preço se visível, garantias, como fecham a venda.",
+    content:ctx+"\n\nAnalise o conteúdo de vídeo. Busque Instagram e YouTube. Responda em português: volume de Reels/vídeos, formatos, cadência, temas, engajamento, qualidade de produção.",
+    audience:ctx+"\n\nAnalise o público-alvo. Responda em português: quem miram, setor, dor principal, linguagem usada, nível de consciência, transformação vendida.",
+    strategic:ctx+"\n\nGere diagnóstico estratégico para a Aionix. Três blocos:\n\n**Pontos fortes do concorrente**\n\n**Pontos fracos**\n\n**Oportunidades para a Aionix**",
+    scores:ctx+"\n\nAtribua scores de 0 a 10 para: "+SCORE_DIMS.join(", ")+". Responda APENAS em JSON puro sem markdown: {\"Presença social\":7,...}"
+  };
+  return ps[section]||ctx;
+}
+var currentLoadingId=null;
+async function startAnalysis(id){
+  var comp=competitors.find(function(c){return c.id===id;});if(!comp)return;
+  selected=comp;if(!analysisStore[id])analysisStore[id]={};currentLoadingId=id;
+  document.getElementById("nav-analysis").disabled=false;
+  page("analysis");
+  document.getElementById("analysis-select-msg").style.display="none";
+  document.getElementById("analysis-main").style.display="block";
+  var idx=competitors.findIndex(function(c){return c.id===id;});
+  var av=document.getElementById("a-avatar");
+  av.textContent=comp.name[0].toUpperCase();av.style.background=PAL_BG[idx%PAL.length];av.style.color=PAL[idx%PAL.length];
+  document.getElementById("a-name").textContent=comp.name;
+  document.getElementById("scores-card").style.display="none";
+  document.getElementById("btn-pdf").style.display="none";
+  activeSection="social";setStatus("loading","Iniciando análise...");renderSegTabs(null);
+  for(var i=0;i<SECTIONS.length;i++){
+    var sec=SECTIONS[i];if(currentLoadingId!==id)return;
+    setStatus("loading","Analisando: "+sec.label);renderSegTabs(sec.id);
+    try{
+      var res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
+        headers:{"Content-Type":"application/json","anthropic-dangerous-direct-browser-access":"true"},
+        body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,
+          tools:[{type:"web_search_20250305",name:"web_search"}],
+          messages:[{role:"user",content:buildPrompt(sec.id,comp)}]})});
+      var data=await res.json();
+      if(sec.id==="scores"){
+        var tb=(data.content||[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("");
+        try{analysisStore[id].scores=JSON.parse(tb.replace(/```json|```/g,"").trim());}catch(e){analysisStore[id].scores={};}
+      }else{
+        analysisStore[id][sec.id]=(data.content||[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("")||"Sem dados.";
+      }
+    }catch(e){if(sec.id!=="scores")analysisStore[id][sec.id]="Erro ao buscar dados.";}
+    saveStorage();if(activeSection===sec.id)renderContent();
+  }
+  setStatus("done","Análise completa");
+  document.getElementById("btn-pdf").style.display="inline-flex";
+  document.getElementById("scores-card").style.display="block";
+  renderSegTabs(null);renderScoresSummary(id);renderContent();updateNavState();
+}
+function setStatus(type,msg){
+  var el=document.getElementById("a-status");if(!el)return;
+  var cls=type==="done"?"pill-green":type==="loading"?"pill-amber":"pill-blue";
+  var icon=type==="done"?"ti-check":type==="loading"?"ti-loader":"ti-clock";
+  el.className="pill "+cls;el.innerHTML='<i class="ti '+icon+'" style="font-size:11px"></i> '+msg;
+}
+function renderSegTabs(loadingId){
+  var id=selected?selected.id:null;var d=id&&analysisStore[id]?analysisStore[id]:{};
+  document.getElementById("seg-tabs").innerHTML=SECTIONS.filter(function(s){return s.id!=="scores";}).map(function(s){
+    var isDone=!!d[s.id];var isBusy=s.id===loadingId;var isActive=s.id===activeSection;
+    var cls="seg-tab"+(isActive?" active":"")+(isDone?" done":"")+(isBusy?" busy":"");
+    var icon=isDone?"ti-check":isBusy?"ti-loader":s.icon;
+    return '<button class="'+cls+'" onclick="setSection(\''+s.id+'\')" '+((!isDone&&!isBusy)?"disabled":"")+'>'+
+      '<i class="ti '+icon+'"></i>'+s.label+'</button>';
+  }).join("")+(d.scores?'<button class="seg-tab'+(activeSection==="scores"?" active done":"")+' done" onclick="setSection(\'scores\')"><i class="ti ti-chart-radar"></i>Scores</button>':'');
+}
+function setSection(id){activeSection=id;renderSegTabs(null);renderContent();}
+function renderContent(){
+  var el=document.getElementById("analysis-content");
+  if(activeSection==="scores"){renderScoresSummary(selected?selected.id:null);el.innerHTML="";return;}
+  var id=selected?selected.id:null;var text=id&&analysisStore[id]?analysisStore[id][activeSection]:null;
+  if(!text){el.innerHTML='<div class="empty"><i class="ti ti-sparkles"></i>Esta seção ainda está sendo analisada...</div>';return;}
+  var fmt=text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\*(.*?)\*/g,"<em>$1</em>");
+  el.innerHTML='<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="btn btn-sm" onclick="exportSectionPDF()"><i class="ti ti-download"></i> Exportar seção</button></div><div class="analysis-box">'+fmt+'</div>';
+}
+function renderScoresSummary(compId){
+  var d=compId&&analysisStore[compId]?analysisStore[compId]:{};var scores=d.scores||{};var total=getScore(compId);
+  var card=document.getElementById("scores-card");if(!compId||!d.scores){card.style.display="none";return;}
+  card.style.display="block";
+  document.getElementById("score-summary").innerHTML=
+    '<div class="score-card"><div class="score-num">'+total.toFixed(1)+'</div><div class="score-sub">Score geral</div></div>'+
+    '<div class="score-card"><div class="score-num" style="color:var(--grn)">'+Math.max(...SCORE_DIMS.map(function(k){return scores[k]||0;})).toFixed(0)+'</div><div class="score-sub">Melhor dimensão</div></div>'+
+    '<div class="score-card"><div class="score-num" style="color:var(--red)">'+Math.min(...SCORE_DIMS.map(function(k){return scores[k]||0;})).toFixed(0)+'</div><div class="score-sub">Pior dimensão</div></div>';
+  document.getElementById("score-bars").innerHTML=SCORE_DIMS.map(function(k){
+    var v=scores[k]||0;var color=v>=7?"var(--grn)":v>=5?"var(--amb)":"var(--red)";
+    return '<div class="score-bar-wrap"><div class="score-label-row"><span>'+k+'</span><span style="color:var(--t1);font-weight:600">'+v+'</span></div>'+
+      '<div class="score-bar"><div class="score-bar-fill" style="width:'+(v*10)+'%;background:'+color+'"></div></div></div>';
+  }).join("");
+}
+function loadAnalysisView(id){
+  var comp=competitors.find(function(c){return c.id===id;});if(!comp)return;
+  var idx=competitors.findIndex(function(c){return c.id===id;});
+  document.getElementById("analysis-select-msg").style.display="none";
+  document.getElementById("analysis-main").style.display="block";
+  var av=document.getElementById("a-avatar");
+  av.textContent=comp.name[0].toUpperCase();av.style.background=PAL_BG[idx%PAL.length];av.style.color=PAL[idx%PAL.length];
+  document.getElementById("a-name").textContent=comp.name;
+  var d=analysisStore[id]||{};var done=Object.keys(d).length>=SECTIONS.length;
+  setStatus(done?"done":"loading",done?"Análise completa":"Análise parcial");
+  document.getElementById("btn-pdf").style.display=done?"inline-flex":"none";
+  activeSection="social";renderSegTabs(null);renderContent();renderScoresSummary(id);
+}
+function renderCompareSelect(){
+  var el=document.getElementById("compare-select-list");
+  if(!competitors.length){el.innerHTML='<div class="empty" style="padding:16px"><i class="ti ti-building-store"></i>Adicione concorrentes primeiro.</div>';return;}
+  el.innerHTML='<div style="display:flex;flex-wrap:wrap;gap:8px">'+competitors.map(function(c,i){
+    return '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);padding:8px 12px;font-size:13px">'+
+      '<input type="checkbox" data-id="'+c.id+'" style="width:auto;accent-color:var(--acc)"/> '+
+      '<div class="avatar" style="width:24px;height:24px;font-size:11px;border-radius:6px;background:'+PAL_BG[i%PAL.length]+';color:'+PAL[i%PAL.length]+'">'+c.name[0].toUpperCase()+'</div> '+
+      c.name+'</label>';
+  }).join("")+'</div>';
+}
+function renderCompare(){
+  var checks=document.querySelectorAll("#compare-select-list input[type=checkbox]:checked");
+  var ids=Array.from(checks).map(function(x){return parseInt(x.dataset.id);});
+  var sec=document.getElementById("compare-section").value;
+  var secLabel=SECTIONS.find(function(s){return s.id===sec;});
+  if(ids.length<2){document.getElementById("compare-output").innerHTML='<div class="empty"><i class="ti ti-info-circle"></i>Selecione ao menos 2 concorrentes.</div>';return;}
+  var cols=ids.map(function(id,i){
+    var c=competitors.find(function(x){return x.id===id;});
+    var ci=competitors.findIndex(function(x){return x.id===id;});
+    var text=(analysisStore[id]||{})[sec]||"Análise ainda não disponível.";
+    var fmt=text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\*(.*?)\*/g,"<em>$1</em>");
+    return '<div class="comp-compare-col"><h3><div class="avatar" style="width:24px;height:24px;font-size:11px;border-radius:6px;background:'+PAL_BG[ci%PAL.length]+';color:'+PAL[ci%PAL.length]+'">'+c.name[0].toUpperCase()+'</div>'+c.name+'</h3><div class="analysis-box" style="min-height:120px;font-size:12px;line-height:1.8">'+fmt+'</div></div>';
+  }).join("");
+  document.getElementById("compare-output").innerHTML='<div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:600">'+(secLabel?secLabel.label:sec)+'</div><div class="compare-grid">'+cols+'</div>';
+}
+function renderRanking(){
+  var withScores=competitors.filter(function(c){return analysisStore[c.id]&&analysisStore[c.id].scores;});
+  withScores.sort(function(a,b){return getScore(b.id)-getScore(a.id);});
+  var el=document.getElementById("ranking-list");
+  if(!withScores.length){el.innerHTML='<div class="empty" style="padding:16px"><i class="ti ti-trophy"></i>Nenhum concorrente com scores ainda.</div>';return;}
+  el.innerHTML=withScores.map(function(c,i){
+    var idx=competitors.findIndex(function(x){return x.id===c.id;});
+    var score=getScore(c.id);var color=score>=7?"var(--grn)":score>=5?"var(--amb)":"var(--red)";
+    return '<div class="rank-row"><div class="rank-num'+(i===0?" top":"")+'>'+(i+1)+'</div>'+
+      '<div class="avatar" style="background:'+PAL_BG[idx%PAL.length]+';color:'+PAL[idx%PAL.length]+'">'+c.name[0].toUpperCase()+'</div>'+
+      '<div style="flex:1"><div style="font-size:13px;font-weight:600">'+c.name+'</div><div class="row-meta">'+(c.segment||c.website||"")+'</div></div>'+
+      '<div style="font-size:22px;font-weight:700;color:'+color+'">'+score.toFixed(1)+'</div></div>';
+  }).join("");
+  var ctx=document.getElementById("ranking-chart");
+  if(rankChart)rankChart.destroy();
+  rankChart=new Chart(ctx,{type:"bar",data:{
+    labels:withScores.map(function(c){return c.name;}),
+    datasets:SCORE_DIMS.map(function(dim,di){return{label:dim,data:withScores.map(function(c){return(analysisStore[c.id].scores||{})[dim]||0;}),backgroundColor:PAL[di%PAL.length]+"aa",borderColor:PAL[di%PAL.length],borderWidth:1};})
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:"#8b93b0",font:{size:11}}}},scales:{x:{ticks:{color:"#8b93b0"},grid:{color:"#252c3d"}},y:{min:0,max:10,ticks:{color:"#8b93b0"},grid:{color:"#252c3d"}}}}});
+}
+function buildPrintHTML(comp,sections,data,score){
+  var secHTML=sections.map(function(sec){
+    var text=data[sec.id]||"";if(!text)return"";
+    var fmt=text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\*(.*?)\*/g,"<em>$1</em>").replace(/\n/g,"<br>");
+    return'<div class="section"><div class="sec-title">'+sec.label+'</div><div class="sec-body">'+fmt+'</div></div>';
+  }).join("");
+  var scoreHTML="";
+  if(score>0&&data.scores){
+    var dims=SCORE_DIMS.map(function(k){var v=data.scores[k]||0;var color=v>=7?"#22c98a":v>=5?"#e09c2a":"#e85555";return'<div class="score-dim"><span>'+k+'</span><span style="color:'+color+';font-weight:700">'+v+'/10</span></div>';}).join("");
+    scoreHTML='<div class="section"><div class="sec-title">Scores</div><div class="scores-grid">'+dims+'</div></div>';
+  }
+  return'<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Aionix — '+comp.name+'</title><style>body{font-family:Helvetica,Arial,sans-serif;background:#fff;color:#1a1a2e;margin:0;padding:0}.cover{background:#0d1117;color:#fff;padding:48px 40px;page-break-after:always}.cover .eyebrow{font-size:11px;color:#4f7cff;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}.cover h1{font-size:32px;font-weight:700;margin:0 0 8px}.cover .sub{font-size:13px;color:#8b93b0}.cover .score-badge{display:inline-block;background:#1a2d5e;color:#4f7cff;border-radius:8px;padding:8px 20px;font-size:18px;font-weight:700;margin-top:20px}.content{padding:32px 40px}.section{margin-bottom:32px;page-break-inside:avoid}.sec-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4f7cff;border-bottom:2px solid #e8eaf0;padding-bottom:6px;margin-bottom:14px}.sec-body{font-size:13px;line-height:1.8;color:#2a2a3e}.scores-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.score-dim{display:flex;justify-content:space-between;font-size:13px;padding:8px 12px;background:#f5f5fa;border-radius:6px}.footer{margin-top:40px;font-size:10px;color:#aaa;text-align:center;border-top:1px solid #eee;padding-top:12px}@media print{@page{margin:15mm}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}<\/style><\/head><body>'+
+    '<div class="cover"><div class="eyebrow">Aionix · Inteligência Competitiva<\/div><h1>'+comp.name+'<\/h1><div class="sub">Análise completa · '+new Date().toLocaleDateString("pt-BR")+'<\/div>'+(score>0?'<div class="score-badge">Score geral: '+score.toFixed(1)+'/10<\/div>':'')+'<\/div>'+
+    '<div class="content">'+scoreHTML+secHTML+'<div class="footer">Gerado por Aionix · aionix.com.au<\/div><\/div><\/body><\/html>';
+}
+function exportSectionPDF(){
+  var comp=selected;var sec=SECTIONS.find(function(s){return s.id===activeSection;});if(!comp||!sec)return;
+  var data=analysisStore[comp.id]||{};var html=buildPrintHTML(comp,[sec],data,0);
+  var w=window.open("","_blank","width=900,height=700");w.document.write(html);w.document.close();w.onload=function(){w.print();};
+}
+function exportPDF(){
+  var comp=selected;if(!comp)return;
+  var data=analysisStore[comp.id]||{};var score=getScore(comp.id);
+  var secs=SECTIONS.filter(function(s){return s.id!=="scores"&&data[s.id];});
+  var html=buildPrintHTML(comp,secs,data,score);
+  var w=window.open("","_blank","width=900,height=700");w.document.write(html);w.document.close();w.onload=function(){w.print();};
+}
+loadStorage();renderCompList();updateNavState();
+<\/script>
+</body>
+</html>
+</script>
+</body>
+</html>
